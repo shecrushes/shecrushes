@@ -1,10 +1,10 @@
 ## SheCrushes Adult Website
 
-Simple, open-source and privacy-friendly porn site.
+Open-source _adult entertainment_ website.
 
 ## About this project
 
-This project was created to be a learning experience. I wanted to create a site that would be used by a large amount of users, so I could get actual experience with working on real world application. I also disliked the large amount of spam and badly integrated advertisements that I saw on many of these sites.
+This project was created to be a learning experience. I wanted to create a site that would be used by a large amount of users, so I could get actual experience with working on real world application. I also disliked the large amount of spam and badly integrated advertisements that I saw on many of these sites. The site has gone through some iterations so some code may look odd.
 
 ## Tech used
 
@@ -31,7 +31,7 @@ The idea for this site was to be able to view videos in an infinite scroll type 
 
 I'll only be covering the backend as nothing much interesting happens in the frontend.
 
-Let's start. First, all videos are scraped from redgifs.com. This project only scrapes and stores links, this is important to note. The backend of this project is pretty much one big web scraper, every hour, videos are scraped from some pre-specified categories. When videos are scraped, they are first stored in a Redis database. Then they are cached on the server and expire every hour. Then, each individual video is stored in postgres. It's important to store the links scraped in case a user wants to come back to the video later.
+Let's start. First, all videos are scraped from redgifs.com. This project only scrapes and stores links, this is important to note. The backend of this project is pretty much one big web scraper, every hour, videos are scraped from some pre-specified categories. When videos are scraped, they are first stored in a Redis database, then they are cached on the server and expire every hour. Then, each individual video is stored in postgres. It's important to store the links scraped in case a user wants to come back to the video later.
 
 This is an over-simplified summary of what's going on. More details in the README inside the server folder.
 
