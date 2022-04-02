@@ -1,0 +1,14 @@
+# Block all crawlers for these pages
+Disallow: /termsandconditions
+Disallow: /privacypolicy
+Disallow: /info
+Disallow: /404
+Disallow: /settings
+Disallow: /settings
+
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+Sitemap: https://shecrushes.com/sitemap.xml

@@ -1,0 +1,42 @@
+{
+  "name": "server",
+  "version": "1.1.0",
+  "description": "Server for shecrushes.com",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.ts",
+    "start:prod": "node ./dist/server.js",
+    "build": "tsc --project ./",
+    "dev": "npx nodemon server.ts"
+  },
+  "author": "shecrushes",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "fastify": "^3.23.1",
+    "fastify-cors": "^6.0.3",
+    "fastify-cron": "^1.1.2",
+    "fastify-helmet": "^5.3.2",
+    "fastify-plugin": "^3.0.0",
+    "fastify-postgres": "^3.6.0",
+    "fastify-rate-limit": "^5.6.2",
+    "fastify-redis": "^4.3.3",
+    "firebase-admin": "^10.0.2",
+    "helmet": "^4.6.0",
+    "mongodb": "^4.1.3",
+    "nanoid": "^3.3.1",
+    "ora": "^5.4.1",
+    "pg": "^8.7.1",
+    "pg-format": "^1.0.4",
+    "redis": "^3.1.2",
+    "ts-node": "^10.5.0",
+    "unique-username-generator": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.17",
+    "concurrently": "^6.3.0",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.5"
+  }
+}
