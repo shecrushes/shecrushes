@@ -1,8 +1,91 @@
-# Database changes documentation
+## SheCrushes Backend
 
-The changes we will be adding to the database will be to allow users to like and comment on posts. It's important to note that **you need to make a backup of the current database**. This will also mark the 1 minor version release as the changes made will be able to work over all videos.
+Instructions for getting the backend up and running.
 
-### 1. Create comment table
+## Getting started
+
+1. First, set the current working directory to `/server`. Then run `npm install`
+
+2. Once that has finished running, create a file in the `/server` dir called `config.env`. Inside it, paste the following:
+
+```
+NODE_ENV=development
+
+HOSTNAME=
+REDISPORT=16007
+PASSWORD=
+
+POSTGRES_CONNECTION_DEV=postgres://<username>:<password>@localhost/shecrushes
+POSTGRES_CONNECTION_PROD=postgresql://<username>:<password>@localhost:5432/shecrushes
+
+
+FIREBASE_TYPE=
+FIREBASE_PROJECT_ID=
+FIREBASE_PRVIATE_KEY_ID=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_CLIENT_ID=
+FIREBASE_AUTH_URI=
+FIREBASE_TOKEN_URI=
+FIREBASEAUTH_PROVIDER=
+FIREBASE_CLIENT_CERT=
+```
+
+The 2 main services you will have to set up will be Redis and PostgreSQL.
+
+Redis is used to store & cache videos. Basically, for each category a Redis key exists and inside it is a serialized json string that contains all the videos for that category. It is also used to cache that response on the frontend. This cache will expire every hour when new videos are scraped.
+
+PostgreSQL is used to store all the videos ever scraped. If a user wants to go back to a video, then the postgres database is used to search and return that videos information. The postgres database is also able to store likes and comments.
+
+## Setting up Redis
+
+1. To keep things simple, we'll be using Redis cloud to store the data. You can sign up at [https://redis.com/try-free/](https://redis.com/try-free/).
+
+Once you signup, create a database and copy the endpoint. Paste it into:
+
+```
+HOSTNAME=PASTE ENDPOINT HERE
+REDISPORT=16007
+PASSWORD=
+```
+
+Then, click onto the database and scroll to the "Security" section. Copy the default password and paste it here:
+
+```
+HOSTNAME=PASTE ENDPOINT HERE
+REDISPORT=16007
+PASSWORD=PASTE PASSWORD HERE
+```
+
+## Setting up postgreSQL
+
+The first step is to create a database called `shecrushes`
+
+### 1. Create database
+
+```
+CREATE DATABASE shecrushes;
+```
+
+### 2. Create videos table
+
+```
+CREATE TABLE videos (
+    id BIGINT GENERATED ALWAYS AS IDENTITY,
+    video_id text NOT NULL,
+    title text NOT NULL,
+    video_hd text NOT NULL,
+    video_sd text NOT NULL,
+    pornstar text NOT NULL,
+    tags text NOT NULL,
+    createdate integer NOT NULL
+    thumbnail text NOT NULL,
+    views integer,
+    likes integer
+);
+```
+
+### 3. Create comment table
 
     CREATE TABLE comments (
         comment_id INT GENERATED ALWAYS AS IDENTITY,
@@ -11,10 +94,10 @@ The changes we will be adding to the database will be to allow users to like and
         content VARCHAR(350) NOT NULL,
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
         video_id VARCHAR(255) references videos(video_id),
-        reply_to INT,
+        reply_to INT
     );
 
-### 2. Create the video like table
+### 4. Create the video like table
 
     CREATE TABLE likes (
         user_id VARCHAR(255) NOT NULL,
@@ -26,18 +109,7 @@ The changes we will be adding to the database will be to allow users to like and
         UNIQUE (user_id, comment_id)
     );
 
-### 3. Alter the video table to make columns not null
-
-    ALTER TABLE videos ALTER COLUMN pornstar SET NOT NULL;
-    ALTER TABLE videos ALTER COLUMN tags SET NOT NULL;
-    ALTER TABLE videos ALTER COLUMN createdate SET NOT NULL;
-    ALTER TABLE videos ALTER COLUMN thumbnail SET NOT NULL;
-    ALTER TABLE videos ADD COLUMN likes INTEGER;
-
-### 4. Optimize postgrese
-
-    `// work_mem tells the server that up to 4 MB can be used per operation`
-    SET work_mem TO '250 MB';
+### 5. Add indexes to postgres columns
 
     // Add index to likes comment_id column
     CREATE INDEX likes_comment_id_key ON likes (comment_id);

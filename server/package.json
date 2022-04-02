@@ -10,7 +10,7 @@
     "dev": "npx nodemon server.ts"
   },
   "author": "shecrushes",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.24.0",
     "dotenv": "^10.0.0",

@@ -10,6 +10,8 @@
     "cypress": "cypress open",
     "ci:tests": "cypress run"
   },
+  "author": "shecrushes",
+  "license": "MIT",
   "dependencies": {
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@fullpage/react-fullpage": "^0.1.19",
